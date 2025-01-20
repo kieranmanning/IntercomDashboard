@@ -3,26 +3,47 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+app.use(express.json())
 
-
-// This code makes sure that any request that does not matches a static file
-// in the build folder, will just serve index.html. Client side routing is
-// going to make sure that the correct content will be loaded.
-app.use((req, res, next) => {
-    if (/(.ico|.js|.css|.jpg|.png|.map)$/i.test(req.path)) {
-        next();
-    } else {
-        res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-        res.header('Expires', '-1');
-        res.header('Pragma', 'no-cache');
-        res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
-    }
-});
 app.use(express.static(path.join(__dirname, '../frontend/dist')))
 
-app.use((req, res) => {
-    res.status(200).send('Hello, world!');
+app.get('*', function(req, res) {
+    res.sendFile('index.html', {root: path.join(__dirname, '../frontend/dist')});
 });
+
+app.post('/api/auth/github/callback', async (req, res) => {
+    const { code } = req.body;
+
+    // Exchange code for access token
+    const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            client_id: "Ov23liTwXwG84d4q3SvW",
+            client_secret: redacted,
+            code,
+        }),
+    });
+
+    const tokenData = await tokenResponse.json();
+    const accessToken = tokenData.access_token;
+
+    if (accessToken) {
+        // Use this access token to fetch user details or other tasks.
+        // Maybe generate a JWT and send it to the frontend for session management.
+        res.json({ success: true});
+    } else {
+        res.json({ success: false });
+    }
+});
+
+app.use((req, res) => {
+    res.status(404).send('404');
+});
+
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

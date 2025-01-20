@@ -7,7 +7,7 @@ export default function GitHubCallback() {
 
         if (code) {
             // Send code to backend
-            fetch('http://localhost:8080/auth/github/callback', {
+            fetch('http://localhost:8080/api/auth/github/callback', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ code }),
@@ -15,7 +15,7 @@ export default function GitHubCallback() {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
-                // Handle the response from your backend. Maybe store an authentication token or set user data.
+                return <div>blorp...</div>;
             });
         }
     }, []);
