@@ -18,7 +18,7 @@ export default function GitHubCallback() {
                 return <div>blorp...</div>;
             });
         }
-    }, []);
+    }, []); // todo
 
     return <div>Processing GitHub login...</div>;
 }
