@@ -1,0 +1,35 @@
+import { useContext, useState, createContext, Provider } from "react";
+
+export interface authData {
+  userId: number
+  name: string
+  token: string
+  expiresAt: string
+}
+
+const defAuth:authData = {
+  userId: 0,
+  name: '',
+  token: '',
+  expiresAt: ''
+}
+
+interface IAuthContext {
+  authData: authData | undefined,
+  setState: (authInfo:authData) => void
+}
+
+const AuthContext = createContext<IAuthContext>( {
+  authData: defAuth,
+  setState: () => {}
+});
+const { Provider } = AuthContext;
+
+export default function AuthProvider(props) {
+
+  return (
+    <>
+        <button ></button>
+    </>
+  );
+}

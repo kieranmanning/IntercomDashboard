@@ -1,6 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function GitHubCallback() {
+    const [ authd, setAuthd ] = useState(false);
+
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
@@ -14,11 +16,15 @@ export default function GitHubCallback() {
             })
             .then(response => response.json())
             .then(data => {
+                setAuthd(true);
                 console.log(data);
-                return <div>blorp...</div>;
             });
         }
     }, []); // todo
 
-    return <div>Processing GitHub login...</div>;
+    if (! authd) {
+        return <div>Processing GitHub login...</div>;    
+    } else {
+        return <div> authenticated </div>;
+    }
 }

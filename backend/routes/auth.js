@@ -2,7 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 
-export default router.post('/github/callback', async (req, res) => {
+router.post('/github/callback', async (req, res) => {
     const { code } = req.body;
 
     // Exchange code for access token
@@ -30,3 +30,20 @@ export default router.post('/github/callback', async (req, res) => {
         res.json({ success: false });
     }
 });
+
+router.get('/getUserData', async function(req, res) {
+    req.get("Authorization"); 
+    await fetch("http://api.github.com/user", {
+        method: "GET",
+        headers: {
+            "Authorization": req.get("Authorization")
+        }
+    }).then((response) => {
+        return response.json(); 
+    }).then((data) => {
+        console.log(data);
+        res.json(data);
+    });
+})
+
+export default router;
