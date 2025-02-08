@@ -2,9 +2,7 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post('/github/callback', async (req, res) => {
-    const { code } = req.body;
-
+router.get('/github/callback', async (req, res) => {
     // Exchange code for access token
     const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
         method: 'POST',
@@ -14,9 +12,9 @@ router.post('/github/callback', async (req, res) => {
         },
         body: JSON.stringify({
             client_id: "Ov23liTwXwG84d4q3SvW",
-            client_secret: "883700d68f0c611ce28940ce435035c474e991c4",
-            code,
-        }),
+            client_secret: "51c99a5195f197c15b4f5d8c9e3b8deec7b82035",
+            code: req.query.code
+        })    
     });
 
     const tokenData = await tokenResponse.json();
@@ -25,9 +23,11 @@ router.post('/github/callback', async (req, res) => {
     if (accessToken) {
         // Use this access token to fetch user details or other tasks.
         // Maybe generate a JWT and send it to the frontend for session management.
-        res.json({ success: true});
+        var session_token = "test-token";
+        req.session.token = session_token;
+        res.redirect("/");
     } else {
-        res.json({ success: false });
+        res.send("Authorization failed");
     }
 });
 

@@ -1,21 +1,26 @@
 'use strict';
 
 import path from 'path';
-import express from 'express'
+import express from 'express';
+import session from 'express-session';
 
 import auth_route from './routes/auth.js';
 import home_route from './routes/home.js';
 
 const app = express();
 app.use(express.json());
+app.use(session({
+    secret: "my-secret",
+    resave: false,
+    saveUninitialized: false
+}));
 
 // Include our built static resources from React
 app.use(express.static(path.join(import.meta.dirname, '../frontend/dist')));
 
 // Include our routes
-const router = express.Router();
-app.use('/', home_route);
 app.use('/api/auth/', auth_route);
+app.use('/', home_route);
 
 app.use((req, res) => {
     res.status(404).send('404');
