@@ -6,6 +6,7 @@ import session from 'express-session';
 
 import auth_route from './routes/auth.js';
 import home_route from './routes/home.js';
+import session_route from './routes/session.js';
 
 const app = express();
 app.use(express.json());
@@ -20,11 +21,14 @@ app.use(express.static(path.join(import.meta.dirname, '../frontend/dist')));
 
 // Include our routes
 app.use('/api/auth/', auth_route);
+app.use('/api/session/', session_route);
 app.use('/', home_route);
 
 app.use((req, res) => {
     res.status(404).send('404');
 });
+
+console.log(app._router.stack);
 
 // Start the server
 const PORT = process.env.PORT || 8080;

@@ -23,27 +23,22 @@ router.get('/github/callback', async (req, res) => {
     if (accessToken) {
         // Use this access token to fetch user details or other tasks.
         // Maybe generate a JWT and send it to the frontend for session management.
-        var session_token = "test-token";
-        req.session.token = session_token;
-        res.redirect("/");
+
+        await fetch("https://api.github.com/user", { 
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + accessToken,
+            }
+        }).then((response) => {
+            const response_json = response.json();
+            req.session.user_email = response_json["email"];
+            req.session.signed_in = true
+            console.log("successful login for " + req.session.user_email);
+            res.redirect("/");
+        });
     } else {
-        res.send("Authorization failed");
+        res.send("Authentication with GitHub failed");
     }
 });
-
-router.get('/getUserData', async function(req, res) {
-    req.get("Authorization"); 
-    await fetch("http://api.github.com/user", { 
-        method: "GET",
-        headers: {
-            "Authorization": req.get("Authorization")
-        }
-    }).then((response) => {
-        return response.json(); 
-    }).then((data) => {
-        console.log(data);
-        res.json(data);
-    });
-})
 
 export default router;
