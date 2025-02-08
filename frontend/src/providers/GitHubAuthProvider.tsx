@@ -5,16 +5,25 @@ import {
   useEffect,
   useMemo,
   useState,
+  ReactNode
 } from "react"
 
-type authTokenC
+type tokenState = {
+  token: string | null,
+  setToken: (newToken: string) => void
+}
 
-const AuthContext = createContext(false);
+const defaultToken: tokenState = {
+  token: null,
+  setToken: (newToken: string) => {console.log(newToken)}
+};
 
-const AuthProvider = ({child_elements}) => {
+const AuthContext = createContext(defaultToken);
+
+const GitHubAuthProvider = (children: ReactNode) => {
     const [token, setToken_] = useState(localStorage.getItem("token"));
 
-    const setToken = (newToken) => {
+    const setToken = (newToken: string) => {
         setToken_(newToken);
       };
 
@@ -38,7 +47,7 @@ const AuthProvider = ({child_elements}) => {
       
     return(
         <AuthContext.Provider value={contextValue}>
-            {child_elements}
+            {children}
         </AuthContext.Provider>
     )
 }
@@ -49,4 +58,4 @@ export const useAuth = () => {
     return useContext(AuthContext);
 };
   
-export default AuthProvider;
+export default GitHubAuthProvider;

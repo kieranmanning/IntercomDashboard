@@ -33,7 +33,7 @@ router.post('/github/callback', async (req, res) => {
 
 router.get('/getUserData', async function(req, res) {
     req.get("Authorization"); 
-    await fetch("http://api.github.com/user", {
+    await fetch("http://api.github.com/user", { 
         method: "GET",
         headers: {
             "Authorization": req.get("Authorization")
