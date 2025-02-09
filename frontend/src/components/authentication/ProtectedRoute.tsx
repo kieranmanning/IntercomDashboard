@@ -1,13 +1,21 @@
 import { Navigate } from "react-router";
-import { useAuth } from '../../providers/GitHubAuthProvider';
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 
-export default function ProtectedRoute(children: ReactElement) {
-    const { token } = useAuth();
+type ChildrenProps = {
+  children?: ReactNode;
+}
 
-    if(!token){
-        return <Navigate to="/login" />
+export default async function ProtectedRoute({children}: ChildrenProps) {
+    const response = await window.fetch('http://localhost:8080/api/session')
+    
+	const { data, errors } = await response.json()
+    if(response.ok) {
+        if(data.json()["authenticated"]){
+            return children;   
+        } else {
+            return <Navigate to="/" />
+        }
+    } else {
+        console.log(errors);
     }
-
-    return children;
 }

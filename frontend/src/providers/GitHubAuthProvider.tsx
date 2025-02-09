@@ -20,7 +20,7 @@ const defaultToken: tokenState = {
 
 const AuthContext = createContext(defaultToken);
 
-const GitHubAuthProvider = (children: ReactNode) => {
+const SessionAuthProvider = (children: ReactNode) => {
     const [token, setToken_] = useState(localStorage.getItem("token"));
 
     const setToken = (newToken: string) => {
@@ -58,4 +58,4 @@ export const useAuth = () => {
     return useContext(AuthContext);
 };
   
-export default GitHubAuthProvider;
+export default SessionAuthProvider;

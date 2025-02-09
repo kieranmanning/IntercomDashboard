@@ -28,8 +28,6 @@ app.use((req, res) => {
     res.status(404).send('404');
 });
 
-console.log(app._router.stack);
-
 // Start the server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

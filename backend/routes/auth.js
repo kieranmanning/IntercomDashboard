@@ -12,7 +12,7 @@ router.get('/github/callback', async (req, res) => {
         },
         body: JSON.stringify({
             client_id: "Ov23liTwXwG84d4q3SvW",
-            client_secret: "51c99a5195f197c15b4f5d8c9e3b8deec7b82035",
+            client_secret: "<add key here>",
             code: req.query.code
         })    
     });
