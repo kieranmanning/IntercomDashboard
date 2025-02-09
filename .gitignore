@@ -1,5 +1,6 @@
 # Secrets files
 secrets
+config.js
 
 # Logs
 logs

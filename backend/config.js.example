@@ -1,0 +1,8 @@
+export default {
+    "github": {
+        "oauth": {
+            "client_id": "<insert>",
+            "client_secret": "<insert>"
+        }
+    }
+}

@@ -7,6 +7,7 @@ import session from 'express-session';
 import auth_route from './routes/auth.js';
 import home_route from './routes/home.js';
 import session_route from './routes/session.js';
+import config from './config.js';
 
 const app = express();
 app.use(express.json());

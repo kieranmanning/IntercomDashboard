@@ -1,4 +1,5 @@
 import express from 'express';
+import config from '../config.js';
 
 const router = express.Router();
 
@@ -11,8 +12,8 @@ router.get('/github/callback', async (req, res) => {
             'Accept': 'application/json',
         },
         body: JSON.stringify({
-            client_id: "Ov23liTwXwG84d4q3SvW",
-            client_secret: "<add key here>",
+            client_id: config.github.oauth.client_id,
+            client_secret: config.github.oauth.client_secret,
             code: req.query.code
         })    
     });
