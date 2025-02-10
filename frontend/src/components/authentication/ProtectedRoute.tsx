@@ -1,21 +1,23 @@
-import { Navigate } from "react-router";
-import { ReactNode } from "react";
+// import { useContext } from "react";
+// import { AuthContext } from "../../contexts/AuthContext";
+import { Navigate, Outlet } from 'react-router-dom'
 
-type ChildrenProps = {
-  children?: ReactNode;
-}
+export default function ProtectedRoutes() {
+    // const authContext = useContext(AuthContext);
 
-export default async function ProtectedRoute({children}: ChildrenProps) {
-    const response = await window.fetch('http://localhost:8080/api/session')
-    
-	const { data, errors } = await response.json()
-    if(response.ok) {
-        if(data.json()["authenticated"]){
-            return children;   
-        } else {
-            return <Navigate to="/" />
-        }
-    } else {
-        console.log(errors);
-    }
+    fetch("http://localhost:8080/api/session")
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if(data.authenticated){
+                console.log("authenticated for route")
+                return (
+                    <Outlet />
+                )
+            } else {
+                return (
+                    <Navigate to='/' />
+                )
+            }
+    });
 }

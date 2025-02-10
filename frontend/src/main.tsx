@@ -5,7 +5,7 @@ import './index.css';
 import Home from './components/home/Home';
 import GitHubLoginButton from './components/authentication/GitHubLoginButton';
 import Gallery from './components/gallery/Gallery';
-import ProtectedRoute from "./components/authentication/ProtectedRoute";
+import ProtectedRoutes from "./components/authentication/ProtectedRoute";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,9 +13,9 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<GitHubLoginButton />} />
-          <ProtectedRoute>
+          <Route element={<ProtectedRoutes/>}>
             <Route path='/test' element={<Gallery />} />
-          </ProtectedRoute>
+          </Route>
         </Routes>
     </BrowserRouter>
   </StrictMode>
