@@ -3,6 +3,7 @@ import reactLogo from '../../assets/react.svg'
 import viteLogo from '/vite.svg'
 import './Home.css'
 import GitHubLoginButton from '../authentication/GitHubLoginButton'
+import LogoutButton from '../authentication/LogoutButton'
 
 export default function Home(): ReactElement {
   const [count, setCount] = useState(0)
@@ -31,6 +32,9 @@ export default function Home(): ReactElement {
       </p>
       <p>
         <GitHubLoginButton />
+      </p>
+      <p>
+        <LogoutButton />
       </p>
     </>
   )
