@@ -6,17 +6,21 @@ import Home from './components/home/Home';
 import GitHubLoginButton from './components/authentication/GitHubLoginButton';
 import Gallery from './components/gallery/Gallery';
 import ProtectedRoutes from "./components/authentication/ProtectedRoute";
+import checkAuthenticated from './utils/session';
 
-createRoot(document.getElementById('root')!).render(
+const renderApp = (isAuthenticated: boolean) => {
+  createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<GitHubLoginButton />} />
-          <Route element={<ProtectedRoutes/>}>
+          <Route element={<ProtectedRoutes isAuthenticated={isAuthenticated}/>}>
             <Route path='/test' element={<Gallery />} />
           </Route>
         </Routes>
     </BrowserRouter>
   </StrictMode>
-)
+)};
+
+(async () => renderApp(await checkAuthenticated()))();
