@@ -8,8 +8,6 @@ type Props = {
 }
 
 export default function ProtectedRoutes(props: Props) {
-    console.log(props);
-
     if(props.isAuthenticated){
         console.log("authenticated for route")
         return (
