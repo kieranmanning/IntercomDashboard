@@ -2,18 +2,18 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from "react-router";
 import './index.css';
-import Home from './components/home/Home';
+import Home from './pages/home/Home';
 import Gallery from './components/gallery/Gallery';
-import ProtectedRoutes from "./components/authentication/ProtectedRoute";
-import checkAuthenticated from './utils/session';
+import ProtectedRoute from "./components/authentication/ProtectedRoute";
+import { getSessionInfo, SessionInfo } from './utils/session';
 
-const renderApp = (isAuthenticated: boolean) => {
+const renderApp = (sessionInfo: SessionInfo) => {
   createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route element={<ProtectedRoutes isAuthenticated={isAuthenticated}/>}>
+          <Route path='/' element={<Home user_email={sessionInfo.user_email} />} />
+          <Route element={<ProtectedRoute isAuthenticated={sessionInfo.authenticated}/>}>
             <Route path='/test' element={<Gallery />} />
           </Route>
         </Routes>
@@ -21,4 +21,4 @@ const renderApp = (isAuthenticated: boolean) => {
   </StrictMode>
 )};
 
-(async () => renderApp(await checkAuthenticated()))();
+(async () => renderApp(await getSessionInfo()))();
