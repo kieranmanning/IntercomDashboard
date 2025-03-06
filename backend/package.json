@@ -12,8 +12,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@aws-sdk/client-cognito-identity-provider": "^3.760.0",
+    "aws-sdk": "^2.1692.0",
+    "aws-sdk-js-v3": "^0.0.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "express-session": "^1.18.1"
+    "express-session": "^1.18.1",
+    "openid-client": "^6.3.3"
   }
 }

@@ -4,10 +4,10 @@ import path from 'path';
 import express from 'express';
 import session from 'express-session';
 
-import auth_route from './routes/auth.js';
+import github_oauth_route from './routes/github-oauth.js';
+import cognito_route from './routes/cognito.js'
 import home_route from './routes/home.js';
 import session_route from './routes/session.js';
-import config from './config.js';
 
 const app = express();
 app.use(express.json());
@@ -17,11 +17,15 @@ app.use(session({
     saveUninitialized: false
 }));
 
+// initialize our OpenID client for AWS Cognito
+
+
 // Include our built static resources from React
 app.use(express.static(path.join(import.meta.dirname, '../frontend/dist')));
 
 // Include our routes
-app.use('/api/auth/', auth_route);
+app.use('/api/auth/github', github_oauth_route);
+app.use('/api/auth/cognito', cognito_route);
 app.use('/api/session/', session_route);
 app.use('/', home_route);
 

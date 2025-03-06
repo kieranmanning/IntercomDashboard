@@ -3,7 +3,7 @@ import config from '../config.js';
 
 const router = express.Router();
 
-router.get('/github/callback', async (req, res) => {
+router.get('/callback', async (req, res) => {
     // Exchange code for access token
     const tokenResponse = await fetch('https://github.com/login/oauth/access_token', {
         method: 'POST',
