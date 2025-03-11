@@ -5,6 +5,7 @@ import {
     CognitoIdentityProviderClient,
     InitiateAuthCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { jwtDecode } from "jwt-decode";
 import config from '../config.js';
 
 const router = express.Router();
@@ -28,52 +29,15 @@ router.post('/signin', async(req,res) => {
 
     const command = new InitiateAuthCommand(params);
     const response = await cognitoClient.send(command);
-    res.json(response);
-});
-
-router.get('/cognito/callback', async (req, res) => {
-    console.log("cognito callback");
-
-    const oidcConfig = await oidcClient.discovery(
-        'https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_xaqjPOYjC',
-        config.cognito.oauth.client_id,
-        config.cognito.oauth.client_secret
-    )
-
-    var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;        
-    const tokens = await oidcClient.authorizationCodeGrant({
-        oidcConfig,
-        fullUrl
-    })
-
-    console.log(tokens);
-
+    const id_token = jwtDecode(response.AuthenticationResult.IdToken);
+    req.session.email = id_token.email
+    req.session.signed_in = true
+    req.session.id_token = response.AuthenticationResult.IdToken
+    req.session.access_token = response.AuthenticationResult.AccessToken
+    req.session.refresh_token = response.AuthenticationResult.RefreshToken
+    console.log(req.session.id_token);
+    console.log(req.session.email + " has signed in");
     res.redirect('/');
 });
 
 export default router;
-
-// import { useAuth } from "react-oidc-context";
-
-// export default function GitHubLoginButton() {
-//     const cognitoAuthConfig = {
-//         authority: "https://cognito-idp.eu-west-1.amazonaws.com/eu-west-1_xaqjPOYjC",
-//         client_id: "617i5dao3qnsogm5fd0dl4nbqt",
-//         redirect_uri: "http://localhost:8080/api/auth/cognito/callback",
-//         response_type: "code",
-//         scope: "email openid profile",
-//     };
-
-    
-
-//     const loginWithGithub = () => {
-//         const clientID="Ov23liTwXwG84d4q3SvW";
-//         const redirectURI="http://localhost:8080/api/auth/github/callback";
-//         window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientID}&redirect_uri=${redirectURI}`;
-//     };
-
-//     return (
-//         <button onClick={loginWithGithub}> Login with GitHub </button>
-//     )
-// }
-

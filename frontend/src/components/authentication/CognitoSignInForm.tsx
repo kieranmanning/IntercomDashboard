@@ -5,13 +5,23 @@ export default function CognitoSignInForm() {
     const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) =>{
         event.preventDefault();
         const target = event.target as typeof event.target & {
-            email: { value: string };
+            username: { value: string };
             password: { value: string };
         };
-        const email = target.email.value;
+        const username = target.username.value;
         const password = target.password.value;
-        console.log(email);
-        console.log(password);
+        fetch('/api/auth/cognito/signin', {
+            method: 'POST',
+            body: JSON.stringify({
+                username: username, 
+                password: password
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res)
+        .then((data) => data);
     }
     
     return (
@@ -19,9 +29,9 @@ export default function CognitoSignInForm() {
             <h2>Sign In</h2>
             <form onSubmit={handleSubmit}>
                 <input
-                    type="email" 
-                    placeholder="Email" 
-                    id="email"
+                    type="text" 
+                    placeholder="User name" 
+                    id="username"
                     required
                 />
                 <input

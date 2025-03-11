@@ -7,6 +7,7 @@ import SignInPage from './pages/login/Login';
 import Gallery from './components/gallery/Gallery';
 import ProtectedRoute from "./components/authentication/ProtectedRoute";
 import { getSessionInfo, SessionInfo } from './utils/session';
+import NotificationsPage from './pages/notifications/Notifications';
 
 const renderApp = (sessionInfo: SessionInfo) => {
   createRoot(document.getElementById('root')!).render(
@@ -17,6 +18,7 @@ const renderApp = (sessionInfo: SessionInfo) => {
           <Route path='/login' element={<SignInPage />} />
           <Route element={<ProtectedRoute isAuthenticated={sessionInfo.authenticated}/>}>
             <Route path='/test' element={<Gallery />} />
+            <Route path='/notifications' element={<NotificationsPage />} />
           </Route>
         </Routes>
     </BrowserRouter>
