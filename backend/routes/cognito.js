@@ -30,13 +30,14 @@ router.post('/signin', async(req,res) => {
     const command = new InitiateAuthCommand(params);
     const response = await cognitoClient.send(command);
     const id_token = jwtDecode(response.AuthenticationResult.IdToken);
-    req.session.email = id_token.email
+    req.session.user_email = id_token.email
     req.session.signed_in = true
     req.session.id_token = response.AuthenticationResult.IdToken
     req.session.access_token = response.AuthenticationResult.AccessToken
     req.session.refresh_token = response.AuthenticationResult.RefreshToken
     console.log(req.session.id_token);
-    console.log(req.session.email + " has signed in");
+    console.log(req.session.user_email + " has signed in");
+    req.session.save()
     res.redirect('/');
 });
 

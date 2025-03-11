@@ -2,7 +2,16 @@ export default {
     "github": {
         "oauth": {
             "client_id": "<insert>",
-            "client_secret": "<insert>"
+            "client_secret": "<insert"
         }
+    },
+    "cognito": {
+        "oauth": {
+            "client_id": "<insert>"
+        },
+        "region": "<insert>"
+    },
+    "aws_notifications_api": {
+        "base_invoke_url": "<insert>"
     }
 }
