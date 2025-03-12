@@ -4,6 +4,16 @@ import { LineChart } from '@mui/x-charts/LineChart';
 export default function NotificationsTimeline() {
     const [ notificationData, setNotificationData ] = useState(null);
     console.log(notificationData)
+
+    // function transform_data(data) {
+    //     const transformed_data = data.map((item) => {
+    //         return {
+    //             x: item.timestamp,
+    //             y: item.value
+    //         }
+    //     })
+    //     return transformed_data
+    // }
     
     useEffect(() => {
         fetch('http://localhost:8080/api/notifications')

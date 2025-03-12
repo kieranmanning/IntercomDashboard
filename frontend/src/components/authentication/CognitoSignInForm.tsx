@@ -1,4 +1,7 @@
 import React from 'react';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 export default function CognitoSignInForm() {
 
@@ -25,23 +28,27 @@ export default function CognitoSignInForm() {
     }
     
     return (
-        <div>
-            <h2>Sign In</h2>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text" 
-                    placeholder="User name" 
-                    id="username"
-                    required
-                />
-                <input
-                    type="password" 
-                    placeholder="Password" 
-                    id="password"
-                    required
-                />
-                <button type="submit">Sign In</button>
-            </form>
-        </div>
+        <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit}
+        >
+            <div>
+                <h2>Sign In</h2>
+                    <TextField
+                        placeholder="User name" 
+                        id="username"
+                        required
+                    />
+                    <TextField
+                        type="password" 
+                        placeholder="Password" 
+                        id="password"
+                        required
+                    />
+                    <Button type="submit">Sign In</Button>
+            </div>
+        </Box>
     );
 };
