@@ -1,6 +1,4 @@
-import './Login.css'
-import CognitoSignInForm from '../../components/authentication/CognitoSignInForm'
-import GitHubLoginButton from '../../components/authentication/GitHubLoginButton';
+import CognitoSignInForm from '../../components/authentication/SignInForm'
 
 export default function SignInPage () {
   return (
@@ -8,9 +6,6 @@ export default function SignInPage () {
       <h1>Welcome to My App</h1>
       <p >Please sign in to continue</p>
       <CognitoSignInForm /> 
-      <p>
-        <GitHubLoginButton />
-      </p>
     </div>
   );
 };
