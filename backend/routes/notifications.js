@@ -3,6 +3,12 @@ import config from '../config.js';
 
 const router = express.Router();
 
+function mapNotificationData(dynamoData) {
+    graphData = dynamoData.Items.map(item => {
+        
+    });
+}
+
 router.get('', (req, res) => {
     if(req.session.signed_in) {
         console.log("fetching notifications for " + req.session.user_email);
@@ -14,7 +20,7 @@ router.get('', (req, res) => {
             }
         }).then(response => response.json())
         .then(data => {
-            res.send(data);
+            res.send(mapNotificationData(data));
         });
     }
 });
